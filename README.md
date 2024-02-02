@@ -51,6 +51,22 @@ For usage and configuration options:
 ./goinventor --help
 ```
 
+Output:
+
+```
+Usage of ./goinventor:
+  -env-prefix string
+        Prefix for ENV variables (default "INVENTORY_")
+  -host string
+        Get host specific values
+  -list
+        List all hosts
+  -nats string
+        The NATS server URL (default "nats://127.0.0.1:4222")
+  -source string
+        The key value store source (env/nats) (default "env")
+```
+
 ## Integrating with Ansible
 
 Test with Ansible and env based inventory:
@@ -114,3 +130,50 @@ Result:
   "hostname": "host1"
 }
 ```
+
+## Inventory Naming Convention
+
+The `goinventor` tool employs a specific naming convention for environment 
+variables to efficiently manage and categorize inventory data for Ansible. This 
+convention facilitates the dynamic allocation of variables to the appropriate 
+groups and hosts within the inventory.
+
+### Format
+
+The environment variables follow these patterns:
+
+1. **Host-Specific Variables**:  
+   Format: `PREFIX_group_hostname_key=value`  
+   Description: Sets a variable (`key=value`) for a specific host (`hostname`) 
+   within a named group (`group`).  
+   Example: `INVENTORY_webservers_web1_ansible_host=192.168.1.10`
+
+2. **Host Variables Without Group**:  
+   Format: `PREFIX__hostname_key=value`  
+   Equivalent to: `PREFIX_ungrouped_hostname_key=value`  
+   Description: Assigns a variable to a host not explicitly assigned to any
+   other group.  
+   Example: `INVENTORY__web1_ansible_host=192.168.1.10`
+
+3. **Group-Specific Variables**:  
+   Format: `PREFIX_group__key=value`  
+   Equivalent to: `PREFIX_group_ungrouped_key=value`  
+   Description: Sets a variable for all hosts within a specified group.  
+   Example: `INVENTORY_webservers__ansible_user=admin`
+
+4. **Global Variables**:  
+   Format: `PREFIX___key=value`  
+   Equivalent to: `PREFIX_all__key=value`  
+   Description: Defines global variables applicable to all groups and hosts.  
+   Example: `INVENTORY___ansible_connection=ssh`
+
+### Usage in Ansible
+
+These environment variables are parsed by `goinventor` to construct a dynamic
+inventory for Ansible. The tool categorizes and structures the data according to
+the established naming conventions, ensuring that each variable is accurately
+assigned in the Ansible inventory.
+
+By adhering to these conventions, users can dynamically manage complex 
+inventories with ease, providing a flexible and powerful approach to configuring
+Ansible playbooks and roles.
