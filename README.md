@@ -157,11 +157,10 @@ The environment variables follow these patterns:
 
 3. **Group-Specific Variables**:  
    Format: `PREFIX_group__key=value`  
-   Equivalent to: `PREFIX_group_ungrouped_key=value`  
    Description: Sets a variable for all hosts within a specified group.  
    Example: `INVENTORY_webservers__ansible_user=admin`
 
-4. **Global Variables**:  
+4. **Global Variables**:
    Format: `PREFIX___key=value`  
    Equivalent to: `PREFIX_all__key=value`  
    Description: Defines global variables applicable to all groups and hosts.  
