@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+
+  goinventor-nats:
+    image: nats:latest
+    container_name: nats-server
+    command: [ "-js" ]
+    ports:
+    - "4222:4222" # Client connections
+    - "8222:8222" # HTTP monitoring
+    environment:
+    - NATS_SERVER_NAME=goinventor-nats
+
+  goinventor:
+    build: .
+    container_name: goinventor
+    ports:
+    - "9500:9500"
+    restart: unless-stopped
+    environment:
+    - GOINVENTOR_NATS_URL=nats://goinventor-nats:4222
+    - GOINVENTOR_SUBJECT=test
+    - GOINVENTOR_SERVICE=nginx
+    depends_on:
+    - goinventor-nats
