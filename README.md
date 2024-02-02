@@ -53,59 +53,50 @@ For usage and configuration options:
 
 ## Integrating with Ansible
 
-Test with Ansible:
+Test with Ansible and env based inventory:
 
 ```
-ansible-inventory -i goinventor --list
+INVENTORY_hosts_host1_hostname=host1 ansible-inventory -i goinventor --list
 ```
 
 JSON Output:
 
 ```json
 {
-    "_meta": {
-        "hostvars": {
-            "host1": {
-                "ansible_host": "10.0.0.1",
-                "ansible_user": "user1"
-            },
-            "host2": {
-                "ansible_host": "10.0.0.2",
-                "ansible_user": "user2"
-            }
-        }
-    },
-    "all": {
-        "children": [
-            "ungrouped"
-        ]
-    },
-    "ungrouped": {
-        "hosts": [
-            "host1",
-            "host2"
-        ]
+  "_meta": {
+    "hostvars": {
+      "host1": {
+        "hostname": "host1"
+      }
     }
+  },
+  "all": {
+    "children": [
+      "ungrouped",
+      "hosts"
+    ]
+  },
+  "hosts": {
+    "hosts": [
+      "host1"
+    ]
+  }
 }
 ```
 
 YAML Output:
 
 ```
-ansible-inventory -i goinventor --list --yaml
+INVENTORY_hosts_host1_hostname=host1 ansible-inventory -i goinventor --list --yaml
 ```
 
 ```yaml
 all:
   children:
-    ungrouped:
+    hosts:
       hosts:
         host1:
-          ansible_host: 10.0.0.1
-          ansible_user: user1
-        host2:
-          ansible_host: 10.0.0.2
-          ansible_user: user2
+          hostname: host1
 ```
 
 ### Retrieving Single Host Variables
@@ -113,14 +104,13 @@ all:
 Command:
 
 ```
-ansible-inventory -i goinventor --host host1
+INVENTORY_hosts_host1_hostname=host1 ansible-inventory -i goinventor --host host1
 ```
 
 Result:
 
 ```json
 {
-    "ansible_host": "10.0.0.1",
-    "ansible_user": "user1"
+  "hostname": "host1"
 }
 ```
