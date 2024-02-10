@@ -39,9 +39,13 @@ make
 
 ## License
 
-`goinventor` initially operates under the HG Evaluation and Non-Commercial License for two years, post which it transitions to the MIT license for broader usage, including commercial purposes. Refer to [LICENSE.md](LICENSE.md) for details.
+Copyright (c) Heusala Group Ltd. All rights reserved.
 
-Commercial licenses can be obtained under separate agreements.
+`goinventor` initially operates under the HG Evaluation and Non-Commercial License for two years, post which 
+it transitions to the MIT license for broader usage, including commercial purposes. Refer to 
+[LICENSE.md](LICENSE.md) for details.
+
+**Commercial licenses can be obtained under separate agreements.**
 
 ## Usage and Configuration
 
